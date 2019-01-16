@@ -48,12 +48,12 @@ describe "#Game check_human_move" do
   end
   it "returns correct error if input refers to full grid column" do
     game = Game.new
-    game.grid.posn = test_posn
+    game.grid = object_double(Grid.new, :posn => test_posn)
     expect(game.check_human_move('1')).to eql('error! that column is already full')
   end
   it "returns input of integer if integer refers to almost full grid column" do
     game = Game.new
-    game.grid.posn = test_posn
+    game.grid = object_double(Grid.new, :posn => test_posn)
     expect(game.check_human_move('2')).to eql('2')
   end
 end

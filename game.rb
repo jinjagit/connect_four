@@ -4,13 +4,20 @@ class Game
   def initialize
     @moves = 0
     @grid = Grid.new
-    start_output
+    #start_output
+    #play
   end
 
   def start_output
     system "clear"
     print "New Game: human ('o') vs. computer ('x')\n\n"
     @grid.print_posn
+  end
+
+  def play
+    print "\nyour move, choose column (1 ... 7):"
+    input = gets.chomp
+    p input
   end
 
   def check_human_move(input)
