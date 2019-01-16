@@ -8,7 +8,8 @@ class Game
 
   def start_output
     system "clear"
-    print "New Game: human ('o') vs. computer ('x')\n\n"
+    print "        -- New Game --\n"
+    print "human ('o') vs. computer ('x')\n\n"
     @grid.print_posn
   end
 
@@ -17,7 +18,7 @@ class Game
     while @moves < 21 do
       play_round
     end
-    print "\n       GAME OVER!\n\n"
+    print "\n          GAME OVER!\n\n"
   end
 
   def play_round
@@ -30,15 +31,13 @@ class Game
       input = check_human_move(gets.chomp)
     end
 
-    system "clear"
-    print "you added a piece to column #{input}:\n\n"
     @grid.add_to_column(input.to_i, 'o')
-    @grid.print_posn
 
     computer_move = create_computer_move
 
     system "clear"
-    print "computer added a piece to column #{computer_move}:\n\n"
+    print "you added a piece to column #{input}\n"
+    print "cpu added a piece to column #{computer_move}\n\n"
     @grid.add_to_column(computer_move, 'x')
     @grid.print_posn
 
@@ -83,11 +82,11 @@ class Grid
 
   def print_posn
     6.times do |i|
-      print '     '
+      print '        '
       @posn.each {|column| print column[i] + ' '}
       print "\n"
     end
-    puts "     1 2 3 4 5 6 7"
+    puts "        1 2 3 4 5 6 7"
   end
 
   def add_to_column(column, piece)
