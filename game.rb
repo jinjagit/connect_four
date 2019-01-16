@@ -4,6 +4,7 @@ class Game
   def initialize
     @moves = 0
     @grid = Grid.new
+    @winner = ''
   end
 
   def start_output
@@ -15,8 +16,9 @@ class Game
 
   def play
     start_output
-    while @moves < 21 do
+    while @moves < 21 && @winner == '' do
       play_round
+      # check_for_win
     end
     print "\n          GAME OVER!\n\n"
   end
@@ -32,15 +34,12 @@ class Game
     end
 
     @grid.add_to_column(input.to_i, 'o')
-
     computer_move = create_computer_move
-
     system "clear"
     print "  you added 'o' to column #{input}\n"
     print "  cpu added 'x' to column #{computer_move}\n\n"
     @grid.add_to_column(computer_move, 'x')
     @grid.print_posn
-
     @moves += 1
   end
 
