@@ -90,7 +90,7 @@ class Grid
   end
 
   def add_to_column(column, piece)
-     7.times do |i|
+     6.times do |i|
        if @posn[column - 1][5 - i] == '-'
          @posn[column - 1][5 - i] = piece
          break
