@@ -14,7 +14,7 @@ describe "#Grid initialize" do
 end
 
 test_posn = [["x", "o", "x", "o", "x", "o"],
-            ["-", "-", "-", "-", "-", "-"],
+            ["-", "x", "o", "x", "o", "x"],
             ["-", "-", "-", "-", "-", "-"],
             ["-", "-", "-", "-", "-", "-"],
             ["-", "-", "-", "-", "-", "-"],
@@ -49,6 +49,11 @@ describe "#Game check_human_move" do
   it "returns correct error if input is to full column" do
     game = Game.new
     game.grid.posn = test_posn
-    expect(game.check_human_move('1')).to eql('error! input must be integer (from 1, to 7)')
+    expect(game.check_human_move('1')).to eql('error! that column is already full')
+  end
+  it "returns input of integer if integer refers to almost full column" do
+    game = Game.new
+    game.grid.posn = test_posn
+    expect(game.check_human_move('2')).to eql('2')
   end
 end
