@@ -22,6 +22,7 @@ class Grid
   end
 end
 
-grid = Grid.new
-p grid.posn
-grid.print_posn
+if __FILE__ == $0
+  grid = Grid.new
+  grid.print_posn
+end
