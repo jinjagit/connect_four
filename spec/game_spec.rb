@@ -42,11 +42,11 @@ describe "#Game check_human_move" do
     game = Game.new
     expect(game.check_human_move('4')).to eql('4')
   end
-  it "returns correct error if input out of range" do
+  it "returns correct error if input over range" do
     game = Game.new
     expect(game.check_human_move('8')).to eql('error! input must be integer (from 1, to 7)')
   end
-  it "returns correct error if input out of range" do
+  it "returns correct error if input under range" do
     game = Game.new
     expect(game.check_human_move('0')).to eql('error! input must be integer (from 1, to 7)')
   end
