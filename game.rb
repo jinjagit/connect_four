@@ -66,6 +66,15 @@ class Grid
     end
     puts "     1 2 3 4 5 6 7"
   end
+
+  def add_to_column(column, piece)
+     7.times do |i|
+       if @posn[column - 1][5 - i] == '-'
+         @posn[column - 1][5 - i] = piece
+         break
+       end
+     end
+  end
 end
 
 if __FILE__ == $0
