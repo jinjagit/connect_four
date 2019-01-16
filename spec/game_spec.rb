@@ -13,13 +13,13 @@ describe "#Grid initialize" do
   end
 end
 
-test_posn = [["x", "o", "x", "o", "x", "o"],
-            ["-", "x", "o", "x", "o", "x"],
-            ["-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-"]]
+posn_full_col = [["x", "o", "x", "o", "x", "o"],
+                ["-", "x", "o", "x", "o", "x"],
+                ["-", "-", "-", "-", "-", "-"],
+                ["-", "-", "-", "-", "-", "-"],
+                ["-", "-", "-", "-", "-", "-"],
+                ["-", "-", "-", "-", "-", "-"],
+                ["-", "-", "-", "-", "-", "-"]]
 
 describe "#Game check_human_move" do
   it "returns input of integer in correct range" do
@@ -48,12 +48,12 @@ describe "#Game check_human_move" do
   end
   it "returns correct error if input refers to full grid column" do
     game = Game.new
-    game.grid = object_double(Grid.new, :posn => test_posn)
+    game.grid = object_double(Grid.new, :posn => posn_full_col)
     expect(game.check_human_move('1')).to eql('error! that column is already full')
   end
   it "returns input of integer if integer refers to almost full grid column" do
     game = Game.new
-    game.grid = object_double(Grid.new, :posn => test_posn)
+    game.grid = object_double(Grid.new, :posn => posn_full_col)
     expect(game.check_human_move('2')).to eql('2')
   end
 end
