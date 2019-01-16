@@ -1,3 +1,14 @@
+class Game
+  def initialize
+    @moves = 0
+    @posn = Grid.new
+  end
+
+  def check_human_move(input)
+    
+  end
+end
+
 class Grid
   attr_accessor :posn
 
@@ -19,11 +30,11 @@ class Grid
       @posn.each {|column| print column[i] + ' '}
       print "\n"
     end
+    puts "1 2 3 4 5 6 7"
   end
 end
 
 if __FILE__ == $0
-  grid = Grid.new
-  p grid.posn
-  grid.print_posn
+  #grid = Grid.new
+  #grid.print_posn
 end
