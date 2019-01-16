@@ -1,12 +1,18 @@
 class Game
+  attr_accessor :grid
+
   def initialize
     @moves = 0
-    @posn = Grid.new
+    @grid = Grid.new
   end
 
   def check_human_move(input)
     if input.length == 1 && input.to_s =~ /[1-7]/
-      return input
+      if @grid.posn[input.to_i - 1][0] != '-'
+        return 'error! that column is already full'
+      else
+        return input
+      end
     else
       return 'error! input must be integer (from 1, to 7)'
     end
@@ -42,5 +48,5 @@ if __FILE__ == $0
   #grid = Grid.new
   #grid.print_posn
   game = Game.new
-  p game.check_human_move('11')
+  p game.check_human_move('4')
 end

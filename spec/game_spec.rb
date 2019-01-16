@@ -13,10 +13,18 @@ describe "#Grid initialize" do
   end
 end
 
+test_posn = [["x", "o", "x", "o", "x", "o"],
+            ["-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-"]]
+
 describe "#Game check_human_move" do
   it "returns input of integer in correct range" do
     game = Game.new
-    expect(game.check_human_move('1')).to eql('1')
+    expect(game.check_human_move('4')).to eql('4')
   end
   it "returns correct error if input out of range" do
     game = Game.new
@@ -37,5 +45,10 @@ describe "#Game check_human_move" do
   it "returns correct error if more than 1 character input" do
     game = Game.new
     expect(game.check_human_move('11')).to eql('error! input must be integer (from 1, to 7)')
+  end
+  it "returns correct error if input is to full column" do
+    game = Game.new
+    game.grid.posn = test_posn
+    expect(game.check_human_move('1')).to eql('error! input must be integer (from 1, to 7)')
   end
 end
