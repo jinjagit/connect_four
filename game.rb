@@ -36,8 +36,8 @@ class Game
     computer_move = create_computer_move
 
     system "clear"
-    print "you added a piece to column #{input}\n"
-    print "cpu added a piece to column #{computer_move}\n\n"
+    print "  you added 'o' to column #{input}\n"
+    print "  cpu added 'x' to column #{computer_move}\n\n"
     @grid.add_to_column(computer_move, 'x')
     @grid.print_posn
 
@@ -81,12 +81,12 @@ class Grid
   end
 
   def print_posn
+    puts "        1 2 3 4 5 6 7\n"
     6.times do |i|
       print '        '
       @posn.each {|column| print column[i] + ' '}
       print "\n"
     end
-    puts "        1 2 3 4 5 6 7"
   end
 
   def add_to_column(column, piece)
