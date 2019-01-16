@@ -18,14 +18,15 @@ class Game
   end
 
   def play_round
-    print "\nyour move, choose column (1 ... 7):"
+    print "\nyour move, choose column (1 - 7):"
     input = check_human_move(gets.chomp)
+
     while input.include?('error') do
       puts input
       print "try again:"
       input = check_human_move(gets.chomp)
     end
-    
+
     p input
   end
 
@@ -51,9 +52,8 @@ class Grid
 
   def empty_posn
     empty_posn = []
-    column = ['-', '-', '-', '-', '-', '-'] # column: [top, ..., bottom]
     7.times do
-      empty_posn << column
+      empty_posn << ['-', '-', '-', '-', '-', '-']
     end
     empty_posn
   end
@@ -69,8 +69,9 @@ class Grid
 end
 
 if __FILE__ == $0
-  #grid = Grid.new
-  #grid.print_posn
-  game = Game.new
-  game.play
+  grid = Grid.new
+  grid.add_to_column(2)
+  grid.print_posn
+  #game = Game.new
+  #game.play
 end

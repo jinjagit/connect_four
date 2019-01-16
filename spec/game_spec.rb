@@ -13,13 +13,29 @@ describe "#Grid initialize" do
   end
 end
 
-posn_full_col = [["x", "o", "x", "o", "x", "o"],
-                ["-", "x", "o", "x", "o", "x"],
-                ["-", "-", "-", "-", "-", "-"],
-                ["-", "-", "-", "-", "-", "-"],
-                ["-", "-", "-", "-", "-", "-"],
-                ["-", "-", "-", "-", "-", "-"],
-                ["-", "-", "-", "-", "-", "-"]]
+describe "#Grid add_to_column" do
+  it "adds piece to lowest free space in column" do
+    grid = Grid.new
+    grid.add_to_column(2, 'o')
+    grid.add_to_column(2, 'x')
+    grid.add_to_column(4, 'o')
+    expect(grid.posn).to eql([["-", "-", "-", "-", "-", "-"],
+                              ["-", "-", "-", "-", "x", "o"],
+                              ["-", "-", "-", "-", "-", "-"],
+                              ["-", "-", "-", "-", "-", "o"],
+                              ["-", "-", "-", "-", "-", "-"],
+                              ["-", "-", "-", "-", "-", "-"],
+                              ["-", "-", "-", "-", "-", "-"]])
+  end
+end
+
+posn_full_col =  [["x", "o", "x", "o", "x", "o"],
+                  ["-", "x", "o", "x", "o", "x"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"]]
 
 describe "#Game check_human_move" do
   it "returns input of integer in correct range" do
