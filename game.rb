@@ -7,7 +7,7 @@ class Grid
 
   def empty_posn
     empty_posn = []
-    column = ['-', '-', '-', '-', '-', '-']
+    column = ['-', '-', '-', '-', '-', '-'] # column: [top, ..., bottom]
     7.times do
       empty_posn << column
     end
@@ -24,5 +24,6 @@ end
 
 if __FILE__ == $0
   grid = Grid.new
+  p grid.posn
   grid.print_posn
 end
