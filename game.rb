@@ -4,8 +4,6 @@ class Game
   def initialize
     @moves = 0
     @grid = Grid.new
-    #start_output
-    #play
   end
 
   def start_output
@@ -15,8 +13,19 @@ class Game
   end
 
   def play
+    start_output
+    play_round
+  end
+
+  def play_round
     print "\nyour move, choose column (1 ... 7):"
-    input = gets.chomp
+    input = check_human_move(gets.chomp)
+    while input.include?('error') do
+      puts input
+      print "try again:"
+      input = check_human_move(gets.chomp)
+    end
+    
     p input
   end
 
@@ -63,4 +72,5 @@ if __FILE__ == $0
   #grid = Grid.new
   #grid.print_posn
   game = Game.new
+  game.play
 end
