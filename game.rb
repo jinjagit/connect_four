@@ -5,7 +5,7 @@ class Game
   end
 
   def check_human_move(input)
-    
+    return input
   end
 end
 

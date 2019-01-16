@@ -12,3 +12,10 @@ describe "#Grid initialize" do
                               ["-", "-", "-", "-", "-", "-"]])
   end
 end
+
+describe "#Game check_human_move" do
+  it "returns correct error if input not integer" do
+    game = Game.new
+    expect(game.check_human_move('i')).to eql('error')
+  end
+end
