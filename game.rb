@@ -5,7 +5,11 @@ class Game
   end
 
   def check_human_move(input)
-    return input
+    if input.length == 1 && input.to_s =~ /[1-7]/
+      return input
+    else
+      return 'error! input must be integer (from 1, to 7)'
+    end
   end
 end
 
@@ -37,4 +41,6 @@ end
 if __FILE__ == $0
   #grid = Grid.new
   #grid.print_posn
+  game = Game.new
+  p game.check_human_move('11')
 end
