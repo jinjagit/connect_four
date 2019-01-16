@@ -14,7 +14,10 @@ class Game
 
   def play
     start_output
-    play_round
+    while @moves < 21 do
+      play_round
+    end
+    print "\n       GAME OVER!\n\n"
   end
 
   def play_round
@@ -38,6 +41,8 @@ class Game
     print "computer added a piece to column #{computer_move}:\n\n"
     @grid.add_to_column(computer_move, 'x')
     @grid.print_posn
+
+    @moves += 1
   end
 
   def check_human_move(input)
@@ -54,7 +59,6 @@ class Game
 
   def create_computer_move
     computer_move = rand(7)
-    p computer_move
     while @grid.posn[computer_move][0] != '-'
       computer_move = rand(7)
     end
