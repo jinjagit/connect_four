@@ -4,6 +4,13 @@ class Game
   def initialize
     @moves = 0
     @grid = Grid.new
+    start_output
+  end
+
+  def start_output
+    system "clear"
+    print "New Game: human ('o') vs. computer ('x')\n\n"
+    @grid.print_posn
   end
 
   def check_human_move(input)
@@ -37,10 +44,11 @@ class Grid
 
   def print_posn
     6.times do |i|
+      print '     '
       @posn.each {|column| print column[i] + ' '}
       print "\n"
     end
-    puts "1 2 3 4 5 6 7"
+    puts "     1 2 3 4 5 6 7"
   end
 end
 
@@ -48,5 +56,4 @@ if __FILE__ == $0
   #grid = Grid.new
   #grid.print_posn
   game = Game.new
-  p game.check_human_move('4')
 end
