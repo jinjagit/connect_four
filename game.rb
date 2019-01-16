@@ -18,16 +18,26 @@ class Game
   end
 
   def play_round
-    print "\nyour move, choose column (1 - 7):"
+    print "\nyour move; choose column (1 - 7): "
     input = check_human_move(gets.chomp)
 
     while input.include?('error') do
       puts input
-      print "try again:"
+      print "try again; choose column (1 - 7): "
       input = check_human_move(gets.chomp)
     end
 
-    p input
+    system "clear"
+    print "you added a piece to column #{input}:\n\n"
+    @grid.add_to_column(input.to_i, 'o')
+    @grid.print_posn
+
+    computer_move = create_computer_move
+
+    system "clear"
+    print "computer added a piece to column #{computer_move}:\n\n"
+    @grid.add_to_column(computer_move, 'x')
+    @grid.print_posn
   end
 
   def check_human_move(input)
@@ -40,6 +50,15 @@ class Game
     else
       return 'error! input must be integer (from 1, to 7)'
     end
+  end
+
+  def create_computer_move
+    computer_move = rand(7)
+    p computer_move
+    while @grid.posn[computer_move][0] != '-'
+      computer_move = rand(7)
+    end
+    computer_move += 1
   end
 end
 
@@ -78,9 +97,9 @@ class Grid
 end
 
 if __FILE__ == $0
-  grid = Grid.new
-  grid.add_to_column(2)
-  grid.print_posn
-  #game = Game.new
-  #game.play
+  #grid = Grid.new
+  #grid.add_to_column(2)
+  #grid.print_posn
+  game = Game.new
+  game.play
 end
