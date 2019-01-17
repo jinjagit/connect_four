@@ -11,7 +11,7 @@ class Game
     print_game_start
     while @moves < 21 && @winner == '' do
       play_round
-      # check_for_win
+      # check_for_win (not written yet)
     end
     print "\n          GAME OVER!\n\n"
   end
