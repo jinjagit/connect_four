@@ -158,14 +158,3 @@ describe "#Game.create_computer_move" do
     end
   end
 end
-
-# case where input IS valid is trivial, BUT how to test case(s) where human
-# input(s) are invalid (resulting in error messages and further input loops) ?
-describe "#Game.until_human_move_valid" do
-  context "when input is valid" do
-    it "returns input" do
-      game = Game.new
-      expect(game.until_human_move_valid('1')).to eql('1')
-    end
-  end
-end
