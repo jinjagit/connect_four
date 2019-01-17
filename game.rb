@@ -25,22 +25,32 @@ class Game
 
   def play_round
     print "\nyour move; choose column (1 - 7): "
-    input = check_human_move(gets.chomp)
 
-    while input.include?('error') do
-      puts input
-      print "try again; choose column (1 - 7): "
-      input = check_human_move(gets.chomp)
-    end
+    input = until_human_move_valid(gets.chomp)
 
     @grid.add_to_column(input.to_i, 'o')
     computer_move = create_computer_move
+    @grid.add_to_column(computer_move, 'x')
+
     system "clear"
     print "  you added 'o' to column #{input}\n"
     print "  cpu added 'x' to column #{computer_move}\n\n"
-    @grid.add_to_column(computer_move, 'x')
     @grid.print_posn
     @moves += 1
+  end
+
+  def valid_human_move?(input)
+    check_human_move(input).include?('error') == false
+  end
+
+  def until_human_move_valid(input)
+    loop do
+      break if valid_human_move?(input)
+      puts check_human_move(input)
+      print "try again; choose column (1 - 7): "
+      input = gets.chomp
+    end
+    input
   end
 
   def check_human_move(input)
@@ -57,7 +67,7 @@ class Game
 
   def create_computer_move
     computer_move = rand(7)
-    while @grid.posn[computer_move][0] != '-'
+    until @grid.posn[computer_move][0] == '-'
       computer_move = rand(7)
     end
     computer_move += 1
