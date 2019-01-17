@@ -79,15 +79,6 @@ class Grid
     empty_posn
   end
 
-  def print_posn
-    puts "        1 2 3 4 5 6 7\n"
-    6.times do |i|
-      print '        '
-      @posn.each {|column| print column[i] + ' '}
-      print "\n"
-    end
-  end
-
   def add_to_column(column, piece)
      6.times do |i|
        if @posn[column - 1][5 - i] == '-'
@@ -95,6 +86,15 @@ class Grid
          break
        end
      end
+  end
+
+  def print_posn
+    puts "        1 2 3 4 5 6 7\n"
+    6.times do |i|
+      print '        '
+      @posn.each {|column| print column[i] + ' '}
+      print "\n"
+    end
   end
 end
 

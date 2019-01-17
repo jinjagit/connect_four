@@ -15,6 +15,34 @@ describe "#Grid.initialize" do
   end
 end
 
+posn_full_col =  [["x", "o", "x", "o", "x", "o"],
+                  ["-", "x", "o", "x", "o", "x"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"],
+                  ["-", "-", "-", "-", "-", "-"]]
+
+output_print = <<-MULTILINE_STRING
+        1 2 3 4 5 6 7
+        x - - - - - -\s
+        o x - - - - -\s
+        x o - - - - -\s
+        o x - - - - -\s
+        x o - - - - -\s
+        o x - - - - -\s
+                  MULTILINE_STRING
+
+describe "#Grid.print_posn" do
+  context "when called" do
+    it "prints representation of position" do
+      grid = Grid.new
+      grid.posn = posn_full_col
+      expect { grid.print_posn }.to output(output_print).to_stdout
+    end
+  end
+end
+
 describe "#Grid.add_to_column" do
   context "when passed valid 'column' reference and string" do
     it "adds string to lowest free space in @posn 'column'" do
@@ -32,14 +60,6 @@ describe "#Grid.add_to_column" do
     end
   end
 end
-
-posn_full_col =  [["x", "o", "x", "o", "x", "o"],
-                  ["-", "x", "o", "x", "o", "x"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"]]
 
 describe "#Game.check_human_move" do
   context "when input in correct range" do
