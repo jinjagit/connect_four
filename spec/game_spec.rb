@@ -49,9 +49,9 @@ describe "#Grid.add_to_column" do
       grid.add_to_column(2, 'x')
       grid.add_to_column(4, 'o')
       expect(grid.posn).to eql([["-", "-", "-", "-", "-", "-"],
-                                ["-", "-", "-", "-", "x", "o"],
+                                ["-", "-", "-", "-", "x", "o"], # column 2
                                 ["-", "-", "-", "-", "-", "-"],
-                                ["-", "-", "-", "-", "-", "o"],
+                                ["-", "-", "-", "-", "-", "o"], # column 4
                                 ["-", "-", "-", "-", "-", "-"],
                                 ["-", "-", "-", "-", "-", "-"],
                                 ["-", "-", "-", "-", "-", "-"]])
@@ -115,7 +115,7 @@ describe "#Game.check_human_move" do
       game = Game.new
       game.grid = object_double(
         Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
-                            ["-", "x", "o", "x", "o", "x"],
+                            ["-", "x", "o", "x", "o", "x"], # column 2
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
@@ -142,7 +142,7 @@ describe "#Game.create_computer_move" do
     it "does not return integer == full column label" do
       game = Game.new
       game.grid = object_double(
-        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"], # column 1
                             ["-", "x", "o", "x", "o", "x"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
