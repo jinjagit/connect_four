@@ -30,8 +30,7 @@ class Game
   end
 
   def until_human_move_valid(input)
-    loop do
-      break if valid_human_move?(input)
+    until valid_human_move?(input) do
       puts check_human_move(input)
       print "try again; choose column (1 - 7): "
       input = gets.chomp
