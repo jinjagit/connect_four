@@ -149,10 +149,10 @@ describe "#Game.create_computer_move" do
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"]])
-      # use srand to ensure first call to rand(7) == 0, which should be rejected
-      # as it would refer to column '1', which is full, and thus new values
-      # should be generated until a value that refers to a column with free cells
-      # is found and returned.
+      # use srand to ensure first call to rand(7) == 0, which will be rejected
+      # as it refers to column '1' (array index 0) which is 'full', and thus
+      # new values wil be generated until a value that refers to a column with
+      # free cell(s) is found and returned.
       srand(48893)
       expect(game.create_computer_move).not_to eql(1)
     end
