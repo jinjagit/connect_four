@@ -15,15 +15,19 @@ describe "#Grid.initialize" do
   end
 end
 
-posn_full_col =  [["x", "o", "x", "o", "x", "o"],
-                  ["-", "x", "o", "x", "o", "x"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"],
-                  ["-", "-", "-", "-", "-", "-"]]
-
-output_print = <<-MULTILINE_STRING
+describe "#Grid.print_posn" do
+  context "when called" do
+    it "prints representation of position" do
+      grid = Grid.new
+      grid.posn =  [["x", "o", "x", "o", "x", "o"],
+                    ["-", "x", "o", "x", "o", "x"],
+                    ["-", "-", "-", "-", "-", "-"],
+                    ["-", "-", "-", "-", "-", "-"],
+                    ["-", "-", "-", "-", "-", "-"],
+                    ["-", "-", "-", "-", "-", "-"],
+                    ["-", "-", "-", "-", "-", "-"]]
+      expect { grid.print_posn }.to output(
+        <<-MULTILINE_STRING
         1 2 3 4 5 6 7
         x - - - - - -\s
         o x - - - - -\s
@@ -31,14 +35,8 @@ output_print = <<-MULTILINE_STRING
         o x - - - - -\s
         x o - - - - -\s
         o x - - - - -\s
-                  MULTILINE_STRING
-
-describe "#Grid.print_posn" do
-  context "when called" do
-    it "prints representation of position" do
-      grid = Grid.new
-      grid.posn = posn_full_col
-      expect { grid.print_posn }.to output(output_print).to_stdout
+          MULTILINE_STRING
+          ).to_stdout
     end
   end
 end
@@ -101,14 +99,28 @@ describe "#Game.check_human_move" do
   context "when input refers to a full grid column" do
     it "returns correct error" do
       game = Game.new
-      game.grid = object_double(Grid.new, :posn => posn_full_col)
+      game.grid = object_double(
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
+                            ["-", "x", "o", "x", "o", "x"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"]])
       expect(game.check_human_move('1')).to eql('error! that column is already full')
     end
   end
   context "when input refers to an almost full grid column" do
     it "returns input" do
       game = Game.new
-      game.grid = object_double(Grid.new, :posn => posn_full_col)
+      game.grid = object_double(
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
+                            ["-", "x", "o", "x", "o", "x"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"]])
       expect(game.check_human_move('2')).to eql('2')
     end
   end
@@ -129,7 +141,14 @@ describe "#Game.create_computer_move" do
   context "when called" do
     it "does not return integer == full column label" do
       game = Game.new
-      game.grid = object_double(Grid.new, :posn => posn_full_col)
+      game.grid = object_double(
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
+                            ["-", "x", "o", "x", "o", "x"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"]])
       # use srand to ensure first call to rand(7) == 0, which should be rejected
       # as it would refer to column '1', which is full, and thus new values
       # should be generated until a value that refers to a column with free cells
