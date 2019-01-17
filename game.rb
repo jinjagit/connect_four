@@ -7,15 +7,8 @@ class Game
     @winner = ''
   end
 
-  def start_output
-    system "clear"
-    print "        -- New Game --\n"
-    print "human ('o') vs. computer ('x')\n\n"
-    @grid.print_posn
-  end
-
   def play
-    start_output
+    print_game_start
     while @moves < 21 && @winner == '' do
       play_round
       # check_for_win
@@ -24,18 +17,11 @@ class Game
   end
 
   def play_round
-    print "\nyour move; choose column (1 - 7): "
-
     input = until_human_move_valid(gets.chomp)
-
     @grid.add_to_column(input.to_i, 'o')
     computer_move = create_computer_move
     @grid.add_to_column(computer_move, 'x')
-
-    system "clear"
-    print "  you added 'o' to column #{input}\n"
-    print "  cpu added 'x' to column #{computer_move}\n\n"
-    @grid.print_posn
+    print_round(input, computer_move)
     @moves += 1
   end
 
@@ -71,6 +57,22 @@ class Game
       computer_move = rand(7)
     end
     computer_move += 1
+  end
+
+  def print_game_start
+    system "clear"
+    print "        -- New Game --\n"
+    print "human ('o') vs. computer ('x')\n\n"
+    @grid.print_posn
+    print "\nyour move; choose column (1 - 7): "
+  end
+
+  def print_round(input, computer_move)
+    system "clear"
+    print "  you added 'o' to column #{input}\n"
+    print "  cpu added 'x' to column #{computer_move}\n\n"
+    @grid.print_posn
+    print "\nyour move; choose column (1 - 7): "
   end
 end
 
