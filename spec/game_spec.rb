@@ -202,7 +202,7 @@ describe "Grid.diagonals" do
                     ['e6', 'e5', 'e4', 'e3', 'e2', 'e1'],
                     ['f6', 'f5', 'f4', 'f3', 'f2', 'f1'],
                     ['g6', 'g5', 'g4', 'g3', 'g2', 'g1']]
-      expect(grid.rows()).to eql([["a3", "b4", "c5", "d6"],
+      expect(grid.diagonals()).to eql([["a3", "b4", "c5", "d6"],
                                   ["a2", "b3", "c4", "d5", "e6"],
                                   ["a1", "b2", "c3", "d4", "e5", "f6"],
                                   ["b1", "c2", "d3", "e4", "f5", "g6"],

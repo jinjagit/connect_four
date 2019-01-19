@@ -115,6 +115,30 @@ class Grid
     end
     rows
   end
+
+  def diagonals
+    posn = @posn
+    diagonals = []
+    2.times do
+      start_col = 0
+      start_row = 3
+      i = 0
+      while start_row > 0 && start_col < 4 do
+        j = 0
+        diagonal = []
+        while start_row - j >= 0 && start_col + j <= 6 do
+          diagonal << posn[start_col + j][start_row - j]
+          j += 1
+        end
+        diagonals << diagonal
+        i += 1
+        start_col += 1 if i > 2
+        start_row += 1 if start_row < 5
+      end
+      posn.reverse!
+    end
+    diagonals
+  end
 end
 
 if __FILE__ == $0
