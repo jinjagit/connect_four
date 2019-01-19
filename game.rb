@@ -103,6 +103,18 @@ class Grid
       print "\n"
     end
   end
+
+  def rows
+    rows = []
+    6.times do |i|
+      row = []
+      7.times do |j|
+        row << @posn[j][5 - i]
+      end
+      rows << row
+    end
+    rows
+  end
 end
 
 if __FILE__ == $0
