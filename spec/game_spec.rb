@@ -59,41 +59,41 @@ describe "#Grid.add_to_column" do
   end
 end
 
-describe "#Game.check_human_move" do
+describe "#Game.move_input_error?" do
   context "when input in correct range" do
-    it "returns input" do
+    it "returns nil" do
       game = Game.new
-      expect(game.check_human_move('4')).to eql('4')
+      expect(game.move_input_error?('4')).to eql(nil)
     end
   end
   context "when input over range" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('8')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('8')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when input over range" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('0')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('0')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when input not integer" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('z')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('z')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when no character input" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when more than 1 character input" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('11')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('11')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when input refers to a full grid column" do
@@ -107,11 +107,11 @@ describe "#Game.check_human_move" do
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"]])
-      expect(game.check_human_move('1')).to eql('error! that column is already full')
+      expect(game.move_input_error?('1')).to eql('error! that column is already full')
     end
   end
   context "when input refers to an almost full grid column" do
-    it "returns input" do
+    it "returns nil" do
       game = Game.new
       game.grid = object_double(
         Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
@@ -121,7 +121,7 @@ describe "#Game.check_human_move" do
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"]])
-      expect(game.check_human_move('2')).to eql('2')
+      expect(game.move_input_error?('2')).to eql(nil)
     end
   end
 end
@@ -161,11 +161,11 @@ end
 
 # case where input IS valid is trivial, BUT how to test case(s) where human
 # input(s) are invalid (resulting in error messages and further input loops) ?
-describe "#Game.until_human_move_valid" do
+describe "#Game.until_move_input_valid" do
   context "when input is valid" do
     it "returns input" do
       game = Game.new
-      expect(game.until_human_move_valid('1')).to eql('1')
+      expect(game.until_move_input_valid('1')).to eql('1')
     end
   end
 end
