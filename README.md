@@ -9,6 +9,10 @@ The game starts with an empty 'grid' and an invitation to the player to choose w
 
 ![new_game.png](img/new_game.png)
 
+In the example below, in the first round, a human player has chosen to 'drop' a piece into column 3 and the computer 'chose' to drop a piece into column 6:
+
+![round_1.png](img/round_1.png)
+
 
 ## RSpec tests
 
