@@ -170,50 +170,22 @@ describe "#Game.until_move_input_valid" do
   end
 end
 
-describe "Grid.rows" do
-  context "when passed a grid position" do
-    it "returns rows of position" do
-      grid = Grid.new
-      grid.posn =  [['a6', 'a5', 'a4', 'a3', 'a2', 'a1'],
-                    ['b6', 'b5', 'b4', 'b3', 'b2', 'b1'],
-                    ['c6', 'c5', 'c4', 'c3', 'c2', 'c1'],
-                    ['d6', 'd5', 'd4', 'd3', 'd2', 'd1'],
-                    ['e6', 'e5', 'e4', 'e3', 'e2', 'e1'],
-                    ['f6', 'f5', 'f4', 'f3', 'f2', 'f1'],
-                    ['g6', 'g5', 'g4', 'g3', 'g2', 'g1']]
-      expect(grid.rows()).to eql([["a1", "b1", "c1", "d1", "e1", "f1", "g1"],
-                                  ["a2", "b2", "c2", "d2", "e2", "f2", "g2"],
-                                  ["a3", "b3", "c3", "d3", "e3", "f3", "g3"],
-                                  ["a4", "b4", "c4", "d4", "e4", "f4", "g4"],
-                                  ["a5", "b5", "c5", "d5", "e5", "f5", "g5"],
-                                  ["a6", "b6", "c6", "d6", "e6", "f6", "g6"]])
-    end
-  end
-end
-
 describe "Grid.diagonals" do
-  context "when passed a grid position" do
-    it "returns diagonals of position, with length >= 4" do
+  context "when called" do
+    it "returns lists of indices of diagonals of position, with length >= 4" do
       grid = Grid.new
-      grid.posn =  [['a6', 'a5', 'a4', 'a3', 'a2', 'a1'],
-                    ['b6', 'b5', 'b4', 'b3', 'b2', 'b1'],
-                    ['c6', 'c5', 'c4', 'c3', 'c2', 'c1'],
-                    ['d6', 'd5', 'd4', 'd3', 'd2', 'd1'],
-                    ['e6', 'e5', 'e4', 'e3', 'e2', 'e1'],
-                    ['f6', 'f5', 'f4', 'f3', 'f2', 'f1'],
-                    ['g6', 'g5', 'g4', 'g3', 'g2', 'g1']]
-      expect(grid.diagonals()).to eql([["a3", "b4", "c5", "d6"],
-                                  ["a2", "b3", "c4", "d5", "e6"],
-                                  ["a1", "b2", "c3", "d4", "e5", "f6"],
-                                  ["b1", "c2", "d3", "e4", "f5", "g6"],
-                                  ["c1", "d2", "e3", "f4", "g5"],
-                                  ["d1", "e2", "f3", "g4"],
-                                  ["g3", "f4", "e5", "d6"],
-                                  ["g2", "f3", "e4", "d5", "c6"],
-                                  ["g1", "f2", "e3", "d4", "c5", "b6"],
-                                  ["f1", "e2", "d3", "c4", "b5", "a6"],
-                                  ["e1", "d2", "c3", "b4", "a5"],
-                                  ["d1", "c2", "b3", "a4"]])
+      expect(grid.diagonals()).to eql([[[0, 3], [1, 2], [2, 1], [3, 0]],
+                                      [[0, 4], [1, 3], [2, 2], [3, 1], [4, 0]],
+                                      [[0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]],
+                                      [[1, 5], [2, 4], [3, 3], [4, 2], [5, 1], [6, 0]],
+                                      [[2, 5], [3, 4], [4, 3], [5, 2], [6, 1]],
+                                      [[3, 5], [4, 4], [5, 3], [6, 2]],
+                                      [[6, 3], [5, 2], [4, 1], [3, 0]],
+                                      [[6, 4], [5, 3], [4, 2], [3, 1], [2, 0]],
+                                      [[6, 5], [5, 4], [4, 3], [3, 2], [2, 1], [1, 0]],
+                                      [[5, 5], [4, 4], [3, 3], [2, 2], [1, 1], [0, 0]],
+                                      [[4, 5], [3, 4], [2, 3], [1, 2], [0, 1]],
+                                      [[3, 5], [2, 4], [1, 3], [0, 2]]])
     end
   end
 end

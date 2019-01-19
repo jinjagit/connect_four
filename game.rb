@@ -76,6 +76,7 @@ class Grid
 
   def initialize
     @posn = empty_posn
+    @line_of_four = ''
   end
 
   def empty_posn
@@ -104,40 +105,32 @@ class Grid
     end
   end
 
-  def rows
-    rows = []
-    6.times do |i|
-      row = []
-      7.times do |j|
-        row << @posn[j][5 - i]
-      end
-      rows << row
-    end
-    rows
-  end
-
+  # returns lists of indices of @posn elements on diagonals of length >= 4
+  # (each sub-array of arrays == one such diagonal)
   def diagonals
-    posn = @posn
     diagonals = []
-    2.times do
-      start_col = 0
-      start_row = 3
-      i = 0
-      while start_row > 0 && start_col < 4 do
-        j = 0
-        diagonal = []
-        while start_row - j >= 0 && start_col + j <= 6 do
-          diagonal << posn[start_col + j][start_row - j]
-          j += 1
-        end
-        diagonals << diagonal
-        i += 1
-        start_col += 1 if i > 2
-        start_row += 1 if start_row < 5
+    start_col = 0
+    start_row = 3
+    i = 0
+    while start_row > 0 && start_col < 4 do
+      j = 0
+      diagonal = []
+      while start_row - j >= 0 && start_col + j <= 6 do
+        diagonal << [start_col + j, start_row - j]
+        j += 1
       end
-      posn.reverse!
+      diagonals << diagonal
+      i += 1
+      start_col += 1 if i > 2
+      start_row += 1 if start_row < 5
     end
-    diagonals
+    reverse_diagonals = []
+    diagonals.each do |diag|
+      reverse_diagonal = []
+      diag.each {|e| reverse_diagonal << [6 - e[0], e[1]]}
+      reverse_diagonals << reverse_diagonal
+    end
+    return diagonals + reverse_diagonals
   end
 end
 
