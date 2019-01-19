@@ -51,7 +51,7 @@ Initializes <code>\@grid</code> = a new instance of Grid
 
 ## RSpec tests
 
-The image below shows the output of running <code>rspec</code> (which uses the examples in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
+The image below shows the output of running <code>rspec</code> (which uses the tests in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
 
 ![rspec.png](img/rspec.png)
 
@@ -61,7 +61,7 @@ The image below shows the output of running <code>rspec</code> (which uses the e
 
 <code>Game.play_round</code> includes a call to a method that loops until valid user input is given. No tests. See next issue;
 
-<code>Game.until_move_input_valid</code> Only the trivial case where the first user input is valid is tested. This method contains a loop that calls a check on the user input and prompts for further user inputs if the last input was 'invalid'. I don't know how to mock a series of <code>input = gets.chomp</code> events, nor how to deal with conditional loops in RSpec.
+<code>Game.until_move_input_valid</code> Only the trivial case where the first user input is valid is tested. This method contains a loop that calls a check on the user input and prompts for further user inputs if the last input was 'invalid'. I don't know how to mock a series of <code>input = gets.chomp</code> events, nor how to deal with conditional loops in RSpec, thus I can't test the cases where a user inputs any number of invalid inputs.
 
 <code>Game.print_game_start</code> Since this uses <code>Grid.print_posn</code> in the middle of print statements, I cannot 'expect' a simple std.out multi-line string to be its resulting action (though in effect, it is only concerned with a print routine). Using a <code>Grid</code> double doesn't seem an option that will solve this issue.
 
