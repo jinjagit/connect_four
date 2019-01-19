@@ -72,7 +72,7 @@ class Game
 end
 
 class Grid
-  attr_accessor :posn
+  attr_accessor :posn, :line_of_four
 
   def initialize
     @posn = empty_posn
@@ -157,6 +157,9 @@ class Grid
     return diagonals + reverse_diagonals
   end
 
+  # checks if array contains indices of sequence of four 'x' or four 'o'
+  # If found, updates the respective @posn elements to uppercase
+  # and records respective player name ('cpu' or 'human') in @line_of_four
   def find_four(ary)
     first = 0
     last = 3
@@ -173,12 +176,18 @@ class Grid
             @posn[ary[first + i][0]][ary[first + i][1]] = 'O'
           end
         end
-        #test[0] == 'x' ? @winner = 'cpu' : @winner = 'human'
+        test[0].downcase == 'x' ? @line_of_four = 'cpu' : @line_of_four = 'human'
         break
       end
       first += 1
       last += 1
     end
+  end
+
+  def find_fours
+    rows.each {|row| find_four(row)}
+    columns.each {|column| find_four(column)}
+    diagonals.each {|diagonal| find_four(diagonal)}
   end
 end
 
@@ -193,9 +202,9 @@ if __FILE__ == $0
               ['-', '-', '-', '-', 'o', 'x'],
               ['-', '-', '-', '-', '-', 'o'],
               ['-', '-', '-', '-', '-', '-']]
-  diags = grid.diagonals
-  diags.each {|e| grid.find_four(e)}
-  grid.print_posn
+  #diags = grid.diagonals
+  #diags.each {|e| grid.find_four(e)}
+  #grid.print_posn
   grid.posn = [['-', '-', '-', '-', 'o', 'x'],
               ['-', '-', 'x', 'o', 'o', 'o'],
               ['-', '-', 'o', 'x', 'x', 'o'],
@@ -203,9 +212,9 @@ if __FILE__ == $0
               ['-', '-', '-', '-', 'x', 'o'],
               ['-', '-', '-', '-', 'x', 'x'],
               ['-', '-', '-', '-', '-', '-']]
-  rows = grid.rows
-  rows.each {|e| grid.find_four(e)}
-  grid.print_posn
+  #rows = grid.rows
+  #rows.each {|e| grid.find_four(e)}
+  #grid.print_posn
   grid.posn = [['-', '-', '-', '-', 'o', 'x'],
               ['-', 'o', 'o', 'o', 'o', 'x'],
               ['-', '-', 'x', 'x', 'x', 'x'],
@@ -213,9 +222,9 @@ if __FILE__ == $0
               ['-', '-', '-', '-', 'x', 'o'],
               ['-', '-', '-', '-', '-', 'x'],
               ['-', '-', '-', '-', '-', '-']]
-  columns = grid.columns
-  columns.each {|e| p e}
-  columns.each {|e| grid.find_four(e)}
+  #columns = grid.columns
+  #columns.each {|e| grid.find_four(e)}
+  grid.find_fours
   grid.print_posn
   #game = Game.new
   #game.play

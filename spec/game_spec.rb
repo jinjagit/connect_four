@@ -170,7 +170,7 @@ describe "#Game.until_move_input_valid" do
   end
 end
 
-describe "Grid.rows" do
+describe "#Grid.rows" do
   context "when called" do
     it "returns lists of indices of rows of position" do
       grid = Grid.new
@@ -184,7 +184,7 @@ describe "Grid.rows" do
   end
 end
 
-describe "Grid.columns" do
+describe "#Grid.columns" do
   context "when called" do
     it "returns lists of indices of columns of position" do
       grid = Grid.new
@@ -199,9 +199,9 @@ describe "Grid.columns" do
   end
 end
 
-describe "Grid.diagonals" do
+describe "#Grid.diagonals" do
   context "when called" do
-    it "returns lists of indices of diagonals of position, with length >= 4" do
+    it "returns lists of indices of diagonals (with length >= 4) of position" do
       grid = Grid.new
       expect(grid.diagonals()).to eql([[[0, 3], [1, 2], [2, 1], [3, 0]],
                                       [[0, 4], [1, 3], [2, 2], [3, 1], [4, 0]],
@@ -215,6 +215,144 @@ describe "Grid.diagonals" do
                                       [[5, 5], [4, 4], [3, 3], [2, 2], [1, 1], [0, 0]],
                                       [[4, 5], [3, 4], [2, 3], [1, 2], [0, 1]],
                                       [[3, 5], [2, 4], [1, 3], [0, 2]]])
+    end
+  end
+end
+
+describe "#Grid.find_four" do
+  context "when passed list referring to grid line containing sequence of 4 identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', 'o', 'o', 'o', 'o', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', '-', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    ary = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], 1, 5]
+    it "sets @line_of_four to correct winner name" do
+      grid.find_four(ary)
+      expect(grid.line_of_four).to eql('human')
+    end
+    it "replaces winning line elements in @posn with uppercase characters" do
+      grid.find_four(ary)
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', 'O', 'O', 'O', 'O', 'x'], # Note 4 * uppercase 'O'
+                                ['-', '-', 'o', 'x', 'x', 'x'],
+                                ['-', '-', 'x', 'o', 'x', 'o'],
+                                ['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', '-', '-', '-', 'x'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when passed list referring to grid line NOT containing sequence of 4 identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', 'x', 'o', 'o', 'o', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', '-', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    ary = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], 1, 5]
+    it "does NOT set @line_of_four to a winner name" do
+      grid.find_four(ary)
+      expect(grid.line_of_four).to eql('')
+    end
+    it "does NOT change @posn elements" do
+      grid.find_four(ary)
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', 'x', 'o', 'o', 'o', 'x'],
+                                ['-', '-', 'o', 'x', 'x', 'x'],
+                                ['-', '-', 'x', 'o', 'x', 'o'],
+                                ['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', '-', '-', '-', 'x'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+end
+
+describe "#Grid.find_fours" do
+  context "when grid COLUMN contains sequence of four identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', 'o', 'o', 'o', 'o', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', '-', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    it "changes respective 'piece' labels in @posn to uppercase" do
+      grid.find_fours
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', 'O', 'O', 'O', 'O', 'x'], # Note 4 * uppercase 'O'
+                                ['-', '-', 'o', 'x', 'x', 'x'],
+                                ['-', '-', 'x', 'o', 'x', 'o'],
+                                ['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', '-', '-', '-', 'x'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when grid ROW contains sequence of four identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', '-', 'x', 'o', 'o', 'o'],
+                ['-', '-', 'o', 'x', 'x', 'o'],
+                ['-', '-', 'x', 'o', 'x', 'x'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    it "changes respective 'piece' labels in @posn to uppercase" do
+      grid.find_fours
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', '-', 'x', 'o', 'o', 'o'],
+                                ['-', '-', 'o', 'x', 'X', 'o'], # Note uppercase 'X'
+                                ['-', '-', 'x', 'o', 'X', 'x'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', 'X', 'o'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', 'X', 'x'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when grid DIAGONAL contains sequence of four identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', 'x', 'o', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'o', 'x'],
+                ['-', '-', '-', '-', '-', 'o'],
+                ['-', '-', '-', '-', '-', '-']]
+    it "changes respective 'piece' labels in @posn to uppercase" do
+      grid.find_fours
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', 'X', 'o', 'x', 'o'], # Note uppercase 'X'
+                                ['-', '-', '-', 'X', 'o', 'x'], # Note uppercase 'X'
+                                ['-', '-', 'x', 'o', 'X', 'o'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', 'o', 'X'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', '-', 'o'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when grid contains more than one 'winning line'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', '-', '-'],
+                ['-', '-', '-', '-', 'x', 'x'],
+                ['-', '-', '-', '-', 'x', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'o'],
+                ['-', '-', 'o', 'x', 'o', 'x'],
+                ['-', '-', 'o', 'o', 'x', 'x'],
+                ['-', '-', 'o', 'o', 'o', 'o']]
+    it "changes respective 'piece' labels in @posn to uppercase" do
+      grid.find_fours
+      # example case where last 'piece' was added to column '7'
+      # Note 10 * uppercase 'O'
+      expect(grid.posn).to eql([['-', '-', '-', '-', '-', '-'],
+                                ['-', '-', '-', '-', 'x', 'x'],
+                                ['-', '-', '-', '-', 'x', 'x'],
+                                ['-', '-', 'O', 'x', 'x', 'O'],
+                                ['-', '-', 'O', 'x', 'O', 'x'],
+                                ['-', '-', 'O', 'O', 'x', 'x'],
+                                ['-', '-', 'O', 'O', 'O', 'O']]) # column 7
     end
   end
 end
