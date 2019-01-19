@@ -59,117 +59,6 @@ describe "#Grid.add_to_column" do
   end
 end
 
-describe "#Game.move_input_error?" do
-  context "when input in correct range" do
-    it "returns nil" do
-      game = Game.new
-      expect(game.move_input_error?('4')).to eql(nil)
-    end
-  end
-  context "when input over range" do
-    it "returns correct error" do
-      game = Game.new
-      expect(game.move_input_error?('8')).to eql('error! input must be integer (from 1, to 7)')
-    end
-  end
-  context "when input over range" do
-    it "returns correct error" do
-      game = Game.new
-      expect(game.move_input_error?('0')).to eql('error! input must be integer (from 1, to 7)')
-    end
-  end
-  context "when input not integer" do
-    it "returns correct error" do
-      game = Game.new
-      expect(game.move_input_error?('z')).to eql('error! input must be integer (from 1, to 7)')
-    end
-  end
-  context "when no character input" do
-    it "returns correct error" do
-      game = Game.new
-      expect(game.move_input_error?('')).to eql('error! input must be integer (from 1, to 7)')
-    end
-  end
-  context "when more than 1 character input" do
-    it "returns correct error" do
-      game = Game.new
-      expect(game.move_input_error?('11')).to eql('error! input must be integer (from 1, to 7)')
-    end
-  end
-  context "when input refers to a full grid column" do
-    it "returns correct error" do
-      game = Game.new
-      game.grid = object_double(
-        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
-                            ["-", "x", "o", "x", "o", "x"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"]])
-      expect(game.move_input_error?('1')).to eql('error! that column is already full')
-    end
-  end
-  context "when input refers to an almost full grid column" do
-    it "returns nil" do
-      game = Game.new
-      game.grid = object_double(
-        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
-                            ["-", "x", "o", "x", "o", "x"], # column 2
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"]])
-      expect(game.move_input_error?('2')).to eql(nil)
-    end
-  end
-end
-
-describe "#Game.create_computer_move" do
-  context "when called" do
-    it "returns random integer in correct range" do
-      game = Game.new
-      invalid = false
-      100.times do
-        test = game.create_computer_move
-        invalid = true if test < 1 || test > 7
-      end
-      expect(invalid).to eql(false)
-    end
-  end
-  context "when called" do
-    it "does not return integer == full column label" do
-      game = Game.new
-      game.grid = object_double(
-        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"], # column 1
-                            ["-", "x", "o", "x", "o", "x"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"],
-                            ["-", "-", "-", "-", "-", "-"]])
-      # use srand to ensure first call to rand(7) == 0, which will be rejected
-      # as it refers to column '1' (array index 0) which is 'full', and thus
-      # new values wil be generated until a value that refers to a column with
-      # free cell(s) is found and returned.
-      srand(48893)
-      expect(game.create_computer_move).not_to eql(1)
-    end
-  end
-end
-
-# case where input IS valid is trivial, BUT how to test case(s) where human
-# input(s) are invalid (resulting in error messages and further input loops) ?
-describe "#Game.until_move_input_valid" do
-  context "when input is valid" do
-    it "returns input" do
-      game = Game.new
-      expect(game.until_move_input_valid('1')).to eql('1')
-    end
-  end
-end
-
 describe "#Grid.rows" do
   context "when called" do
     it "returns lists of indices of rows of position" do
@@ -353,6 +242,117 @@ describe "#Grid.find_fours" do
                                 ['-', '-', 'O', 'x', 'O', 'x'],
                                 ['-', '-', 'O', 'O', 'x', 'x'],
                                 ['-', '-', 'O', 'O', 'O', 'O']]) # column 7
+    end
+  end
+end
+
+describe "#Game.move_input_error?" do
+  context "when input in correct range" do
+    it "returns nil" do
+      game = Game.new
+      expect(game.move_input_error?('4')).to eql(nil)
+    end
+  end
+  context "when input over range" do
+    it "returns correct error" do
+      game = Game.new
+      expect(game.move_input_error?('8')).to eql('error! input must be integer (from 1, to 7)')
+    end
+  end
+  context "when input over range" do
+    it "returns correct error" do
+      game = Game.new
+      expect(game.move_input_error?('0')).to eql('error! input must be integer (from 1, to 7)')
+    end
+  end
+  context "when input not integer" do
+    it "returns correct error" do
+      game = Game.new
+      expect(game.move_input_error?('z')).to eql('error! input must be integer (from 1, to 7)')
+    end
+  end
+  context "when no character input" do
+    it "returns correct error" do
+      game = Game.new
+      expect(game.move_input_error?('')).to eql('error! input must be integer (from 1, to 7)')
+    end
+  end
+  context "when more than 1 character input" do
+    it "returns correct error" do
+      game = Game.new
+      expect(game.move_input_error?('11')).to eql('error! input must be integer (from 1, to 7)')
+    end
+  end
+  context "when input refers to a full grid column" do
+    it "returns correct error" do
+      game = Game.new
+      game.grid = object_double(
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
+                            ["-", "x", "o", "x", "o", "x"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"]])
+      expect(game.move_input_error?('1')).to eql('error! that column is already full')
+    end
+  end
+  context "when input refers to an almost full grid column" do
+    it "returns nil" do
+      game = Game.new
+      game.grid = object_double(
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
+                            ["-", "x", "o", "x", "o", "x"], # column 2
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"]])
+      expect(game.move_input_error?('2')).to eql(nil)
+    end
+  end
+end
+
+describe "#Game.create_computer_move" do
+  context "when called" do
+    it "returns random integer in correct range" do
+      game = Game.new
+      invalid = false
+      100.times do
+        test = game.create_computer_move
+        invalid = true if test < 1 || test > 7
+      end
+      expect(invalid).to eql(false)
+    end
+  end
+  context "when called" do
+    it "does not return integer == full column label" do
+      game = Game.new
+      game.grid = object_double(
+        Grid.new, :posn => [["x", "o", "x", "o", "x", "o"], # column 1
+                            ["-", "x", "o", "x", "o", "x"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"],
+                            ["-", "-", "-", "-", "-", "-"]])
+      # use srand to ensure first call to rand(7) == 0, which will be rejected
+      # as it refers to column '1' (array index 0) which is 'full', and thus
+      # new values wil be generated until a value that refers to a column with
+      # free cell(s) is found and returned.
+      srand(48893)
+      expect(game.create_computer_move).not_to eql(1)
+    end
+  end
+end
+
+# case where input IS valid is trivial, BUT how to test case(s) where human
+# input(s) are invalid (resulting in error messages and further input loops) ?
+describe "#Game.until_move_input_valid" do
+  context "when input is valid" do
+    it "returns input" do
+      game = Game.new
+      expect(game.until_move_input_valid('1')).to eql('1')
     end
   end
 end
