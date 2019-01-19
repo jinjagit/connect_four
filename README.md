@@ -29,11 +29,13 @@ Note that it is possible to create one, two, or three lines of four with a singl
 
 The app uses only 2 classes: Grid, and Game (which creates one instance of Grid)
 
-#### Grid:
+[game.rb](https://github.com/jinjagit/connect_four/blob/game-win/game.rb) creates a new instance of Game, which begins a game. When a game finishes, game.rb prompts the user for input "Play again? (y / n)". 'y' will loop to playing further games, until 'n' is chosen, whereupon the program exits.
 
-Initializes an empty grid position, \@posn == an array of 7 arrays of 6 '-' characters'.
+#### <code>Grid:</code>
 
-Contains methods for printing \@posn to the terminal, for referring to each horizontal, vertical and diagonal 'line' of \@posn, and using the former to check for winning positions.
+Initializes an empty grid position, <code>\@posn</code> == an array of 7 arrays of 6 '-' characters'.
+
+Contains methods for printing <code>\@posn</code> to the terminal, for referring to each horizontal, vertical and diagonal 'line' of \@posn, and using the former to check for winning positions.
 
 Grid.find_fours passes (sets of references to) every column, row, and diagonal (of length 4 or more) to find_four (note the singular);
 
@@ -54,3 +56,17 @@ Game.play_round uses \@grid.find_fours to check for a win after every player 'mo
 The image below shows the output of running <code>rspec</code> (which uses the examples in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
 
 ![rspec.png](img/rspec.png)
+
+### Methods with no / insufficient tests:
+
+Game.play: includes a conditional loop, and I don't know how to write an RSpec test for this case (nor if I need to). No tests.
+
+Game.play_round: includes a call to a method that loops until valid user input is given. No tests. See next issue;
+
+Game.until_move_input_valid: Only the trivial case where the first user input is valid is tested. This method contains a loop that calls a check on the user input and prompts for further user inputs if the last input was 'invalid'. I don't know how to mock a series of <code>input = gets.chomp</code> events, nor how to deal with conditional loops in RSpec.
+
+Game.print_game_start: Since this uses Grid.print_posn in the middle of print statements, I cannot 'expect' a simple std.out multi-line string to be its resulting action (though in effect, it is only concerned with a print routine). Using a Grid double doesn't seem an option that will solve this issue.
+
+Game_print_round: Same issue as for Game.print_game_start, above.
+
+Game.print_result: Same issue as for Game.print_game_start, above.
