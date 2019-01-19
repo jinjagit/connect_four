@@ -4,25 +4,29 @@ class Game
   def initialize
     @moves = 0
     @grid = Grid.new
-    @winner = ''
   end
 
   def play
     print_game_start
-    while @moves < 21 && @winner == '' do
-      play_round
-      # check_for_win (not written yet)
+    while @moves < 21 && @grid.line_of_four == '' do
+      input, computer_move = play_round
     end
-    print "\n          GAME OVER!\n\n"
+    print_result(input, computer_move)
   end
 
   def play_round
     input = until_move_input_valid(gets.chomp)
+    computer_move = nil
     @grid.add_to_column(input.to_i, 'o')
-    computer_move = create_computer_move
-    @grid.add_to_column(computer_move, 'x')
-    print_round(input, computer_move)
-    @moves += 1
+    @grid.find_fours
+    if @grid.line_of_four == ''
+      computer_move = create_computer_move
+      @grid.add_to_column(computer_move, 'x')
+      @grid.find_fours
+      print_round(input, computer_move) if @grid.line_of_four == ''
+      @moves += 1
+    end
+     return input, computer_move
   end
 
   def until_move_input_valid(input)
@@ -68,6 +72,24 @@ class Game
     print "  cpu added 'x' to column #{computer_move}\n\n"
     @grid.print_posn
     print "\nyour move; choose column (1 - 7): "
+  end
+
+  def print_result(input, computer_move)
+    system "clear"
+    print "  you added 'o' to column #{input}\n"
+    if computer_move == nil
+      print "\n\n"
+    else
+      print "  cpu added 'x' to column #{computer_move}\n\n"
+    end
+    @grid.print_posn
+    if @grid.line_of_four == 'cpu'
+      print "\n     Game Over: YOU LOSE!\n\n"
+    elsif @grid.line_of_four == 'human'
+      print "\n     Game Over: YOU WIN!\n\n"
+    else
+      print "\n      Game Over: DRAW!\n\n"
+    end
   end
 end
 
@@ -193,39 +215,19 @@ end
 
 
 if __FILE__ == $0
-  grid = Grid.new
-  #grid.add_to_column(2)
-  grid.posn = [['-', '-', '-', '-', '-', 'x'],
-              ['-', '-', 'x', 'o', 'x', 'o'],
-              ['-', '-', 'o', 'x', 'o', 'x'],
-              ['-', '-', 'x', 'o', 'x', 'o'],
-              ['-', '-', '-', '-', 'o', 'x'],
-              ['-', '-', '-', '-', '-', 'o'],
-              ['-', '-', '-', '-', '-', '-']]
-  #diags = grid.diagonals
-  #diags.each {|e| grid.find_four(e)}
-  #grid.print_posn
-  grid.posn = [['-', '-', '-', '-', 'o', 'x'],
-              ['-', '-', 'x', 'o', 'o', 'o'],
-              ['-', '-', 'o', 'x', 'x', 'o'],
-              ['-', '-', 'x', 'o', 'x', 'o'],
-              ['-', '-', '-', '-', 'x', 'o'],
-              ['-', '-', '-', '-', 'x', 'x'],
-              ['-', '-', '-', '-', '-', '-']]
-  #rows = grid.rows
-  #rows.each {|e| grid.find_four(e)}
-  #grid.print_posn
-  grid.posn = [['-', '-', '-', '-', 'o', 'x'],
-              ['-', 'o', 'o', 'o', 'o', 'x'],
-              ['-', '-', 'x', 'x', 'x', 'x'],
-              ['-', '-', 'x', 'o', 'x', 'o'],
-              ['-', '-', '-', '-', 'x', 'o'],
-              ['-', '-', '-', '-', '-', 'x'],
-              ['-', '-', '-', '-', '-', '-']]
-  #columns = grid.columns
-  #columns.each {|e| grid.find_four(e)}
-  grid.find_fours
-  grid.print_posn
-  #game = Game.new
-  #game.play
+  input = 'y'
+
+  while input == 'y' do
+    game = nil
+    game = Game.new
+    game.play
+    print "\n     Play again? (y / n) "
+    input = gets.chomp
+
+    until input == 'y' || input == 'n' do
+      puts "     ERROR! Invalid input"
+      print "     Play again? (y / n) "
+      input = gets.chomp
+    end
+  end
 end
