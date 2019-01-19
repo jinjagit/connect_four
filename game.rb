@@ -1,12 +1,12 @@
 class Game
   attr_accessor :grid
 
-  def initialize
+  def initialize # Has no RSpec test
     @moves = 0
     @grid = Grid.new
   end
 
-  def play
+  def play # Has no RSpec test
     print_game_start
     while @moves < 21 && @grid.line_of_four == '' do
       input, computer_move = play_round
@@ -14,7 +14,7 @@ class Game
     print_result(input, computer_move)
   end
 
-  def play_round
+  def play_round # Has no RSpec test
     input = until_move_input_valid(gets.chomp)
     computer_move = nil
     @grid.add_to_column(input.to_i, 'o')
@@ -58,7 +58,7 @@ class Game
     computer_move += 1
   end
 
-  def print_game_start
+  def print_game_start # Has no RSpec test
     system "clear"
     print "        -- New Game --\n"
     print "human ('o') vs. computer ('x')\n\n"
@@ -66,7 +66,7 @@ class Game
     print "\nyour move; choose column (1 - 7): "
   end
 
-  def print_round(input, computer_move)
+  def print_round(input, computer_move) # Has no RSpec test
     system "clear"
     print "  you added 'o' to column #{input}\n"
     print "  cpu added 'x' to column #{computer_move}\n\n"
@@ -74,7 +74,7 @@ class Game
     print "\nyour move; choose column (1 - 7): "
   end
 
-  def print_result(input, computer_move)
+  def print_result(input, computer_move) # Has no RSpec test
     system "clear"
     print "  you added 'o' to column #{input}\n"
     if computer_move == nil
