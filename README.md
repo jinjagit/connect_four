@@ -13,12 +13,14 @@ In the example below, in the first round, a human player has chosen to 'drop' a 
 
 ![round_1.png](img/round_1.png)
 
-After each round (human move + computer move) the grid is redrawn and another human input requested. This continues until a player creates a line (horizontal, vertical, or diagonal) of 4 sequential pieces with the player's last move, as in the example below:
+After each round (human move + computer move) the grid is redrawn and another human input requested. This continues until a player wins by creating a line (horizontal, vertical, or diagonal) of 4 of the player's pieces, as in the example below:
 [Note the uppercase highlighting of the winning line-of-four]
 
 ![win_1.png](img/win_1.png)
 
+Or until a draw occurs, when the grid is full but no line of four has been created by either player:
 
+![draw.png](img/draw.png)
 
 ## RSpec tests
 
