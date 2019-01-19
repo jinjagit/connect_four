@@ -313,6 +313,17 @@ describe "#Game.move_input_error?" do
   end
 end
 
+# case where input IS valid is trivial, BUT how to test case(s) where human
+# input(s) are invalid (resulting in error messages and further input loops) ?
+describe "#Game.until_move_input_valid" do
+  context "when input is valid" do
+    it "returns input" do
+      game = Game.new
+      expect(game.until_move_input_valid('1')).to eql('1')
+    end
+  end
+end
+
 describe "#Game.create_computer_move" do
   context "when called" do
     it "returns random integer in correct range" do
@@ -342,17 +353,6 @@ describe "#Game.create_computer_move" do
       # free cell(s) is found and returned.
       srand(48893)
       expect(game.create_computer_move).not_to eql(1)
-    end
-  end
-end
-
-# case where input IS valid is trivial, BUT how to test case(s) where human
-# input(s) are invalid (resulting in error messages and further input loops) ?
-describe "#Game.until_move_input_valid" do
-  context "when input is valid" do
-    it "returns input" do
-      game = Game.new
-      expect(game.until_move_input_valid('1')).to eql('1')
     end
   end
 end
