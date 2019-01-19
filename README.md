@@ -27,9 +27,9 @@ Note that it is possible to create one, two, or three lines of four with a singl
 
 ## code organization:
 
-The app uses only 2 classes: Grid, and Game (which creates one instance of Grid)
+The app uses only 2 classes: <code>Grid</code>, and <code>Game</code> (which creates one instance of <code>Grid</code>)
 
-[game.rb](https://github.com/jinjagit/connect_four/blob/game-win/game.rb) creates a new instance of Game, which begins a game. When a game finishes, game.rb prompts the user for input "Play again? (y / n)". 'y' will loop to playing further games, until 'n' is chosen, whereupon the program exits.
+[game.rb](https://github.com/jinjagit/connect_four/blob/game-win/game.rb) creates a new instance of <code>Game</code>, which begins a game. When a game finishes, game.rb prompts the user for input "Play again? (y / n)". 'y' will loop to playing further games, until 'n' is chosen, whereupon the program exits.
 
 #### <code>Grid:</code>
 
