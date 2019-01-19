@@ -7,11 +7,11 @@ Simon Tharby's solution to [Testing Your Ruby Code](https://www.theodinproject.c
 
 The game starts with an empty 'grid' and an invitation to the player to choose which grid column to 'drop' a 'piece' into:
 
-
+![new_game.png](img/new_game.png)
 
 
 ## RSpec tests
 
 The image below shows the output of running <code>rspec</code> (which uses the examples in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
 
-![RSpec](img/rspec.png)
+![rspec.png](img/rspec.png)
