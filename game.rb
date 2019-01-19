@@ -17,7 +17,7 @@ class Game
   end
 
   def play_round
-    input = until_human_move_valid(gets.chomp)
+    input = until_move_input_valid(gets.chomp)
     @grid.add_to_column(input.to_i, 'o')
     computer_move = create_computer_move
     @grid.add_to_column(computer_move, 'x')
@@ -25,25 +25,21 @@ class Game
     @moves += 1
   end
 
-  def valid_human_move?(input)
-    check_human_move(input).include?('error') == false
-  end
-
-  def until_human_move_valid(input)
-    until valid_human_move?(input) do
-      puts check_human_move(input)
+  def until_move_input_valid(input)
+    until move_input_error?(input) == nil do
+      puts move_input_error?(input)
       print "try again; choose column (1 - 7): "
       input = gets.chomp
     end
     input
   end
 
-  def check_human_move(input)
+  def move_input_error?(input)
     if input.length == 1 && input.to_s =~ /[1-7]/
       if @grid.posn[input.to_i - 1][0] != '-'
         return 'error! that column is already full'
       else
-        return input
+        return nil
       end
     else
       return 'error! input must be integer (from 1, to 7)'
