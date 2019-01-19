@@ -111,12 +111,22 @@ class Grid
     rows = []
     6.times do |i|
       row = []
-      7.times do |j|
-        row << [j, 5 - i]
-      end
+      7.times {|j| row << [j, 5 - i]}
       rows << row
     end
     rows
+  end
+
+  # creates lists of indices of @posn elements in columns of grid
+  # (each sub-array of arrays == one such column)
+  def columns
+    columns = []
+    7.times do |i|
+      column = []
+      6.times {|j| column << [i, j]}
+      columns << column
+    end
+    columns
   end
 
   # creates lists of indices of @posn elements on grid diagonals of length >= 4
@@ -148,7 +158,6 @@ class Grid
   end
 
   def find_four(ary)
-    # ary == [[a, b], ..., [x, y]]
     first = 0
     last = 3
     while last + 1 <= ary.length do
@@ -184,7 +193,6 @@ if __FILE__ == $0
               ['-', '-', '-', '-', 'o', 'x'],
               ['-', '-', '-', '-', '-', 'o'],
               ['-', '-', '-', '-', '-', '-']]
-  grid.print_posn
   diags = grid.diagonals
   diags.each {|e| grid.find_four(e)}
   grid.print_posn
@@ -197,6 +205,17 @@ if __FILE__ == $0
               ['-', '-', '-', '-', '-', '-']]
   rows = grid.rows
   rows.each {|e| grid.find_four(e)}
+  grid.print_posn
+  grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+              ['-', 'o', 'o', 'o', 'o', 'x'],
+              ['-', '-', 'x', 'x', 'x', 'x'],
+              ['-', '-', 'x', 'o', 'x', 'o'],
+              ['-', '-', '-', '-', 'x', 'o'],
+              ['-', '-', '-', '-', '-', 'x'],
+              ['-', '-', '-', '-', '-', '-']]
+  columns = grid.columns
+  columns.each {|e| p e}
+  columns.each {|e| grid.find_four(e)}
   grid.print_posn
   #game = Game.new
   #game.play
