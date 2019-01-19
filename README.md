@@ -15,5 +15,3 @@ The game starts with an empty 'grid' and an invitation to the player to choose w
 The image below shows the output of running <code>rspec</code> (which uses the examples in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
 
 ![RSpec](img/rspec.png)
-
-ssss
