@@ -213,7 +213,6 @@ class Grid
   end
 end
 
-
 if __FILE__ == $0
   input = 'y'
 
