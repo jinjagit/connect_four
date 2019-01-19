@@ -42,8 +42,8 @@ describe "#Grid.print_posn" do
 end
 
 describe "#Grid.add_to_column" do
-  context "when passed valid 'column' reference and string" do
-    it "adds string to lowest free space in @posn 'column'" do
+  context "when passed 'column' reference and string" do
+    it "adds string to lowest free space in position 'column'" do
       grid = Grid.new
       grid.add_to_column(2, 'o')
       grid.add_to_column(2, 'x')
@@ -119,11 +119,11 @@ describe "#Grid.find_four" do
                 ['-', '-', '-', '-', '-', 'x'],
                 ['-', '-', '-', '-', '-', '-']]
     ary = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], 1, 5]
-    it "sets @line_of_four to correct winner name" do
+    it "sets instance variable to correct winner name" do
       grid.find_four(ary)
       expect(grid.line_of_four).to eql('human')
     end
-    it "replaces winning line elements in @posn with uppercase characters" do
+    it "replaces winning line elements in position with uppercase characters" do
       grid.find_four(ary)
       expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
                                 ['-', 'O', 'O', 'O', 'O', 'x'], # Note 4 * uppercase 'O'
@@ -144,11 +144,11 @@ describe "#Grid.find_four" do
                 ['-', '-', '-', '-', '-', 'x'],
                 ['-', '-', '-', '-', '-', '-']]
     ary = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], 1, 5]
-    it "does NOT set @line_of_four to a winner name" do
+    it "does NOT set instance variable to a winner name" do
       grid.find_four(ary)
       expect(grid.line_of_four).to eql('')
     end
-    it "does NOT change @posn elements" do
+    it "does NOT change position elements" do
       grid.find_four(ary)
       expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
                                 ['-', 'x', 'o', 'o', 'o', 'x'],
@@ -171,7 +171,7 @@ describe "#Grid.find_fours" do
                 ['-', '-', '-', '-', 'x', 'o'],
                 ['-', '-', '-', '-', '-', 'x'],
                 ['-', '-', '-', '-', '-', '-']]
-    it "changes respective 'piece' labels in @posn to uppercase" do
+    it "changes respective 'piece' labels in position to uppercase" do
       grid.find_fours
       expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
                                 ['-', 'O', 'O', 'O', 'O', 'x'], # Note 4 * uppercase 'O'
@@ -191,7 +191,7 @@ describe "#Grid.find_fours" do
                 ['-', '-', '-', '-', 'x', 'o'],
                 ['-', '-', '-', '-', 'x', 'x'],
                 ['-', '-', '-', '-', '-', '-']]
-    it "changes respective 'piece' labels in @posn to uppercase" do
+    it "changes respective 'piece' labels in position to uppercase" do
       grid.find_fours
       expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
                                 ['-', '-', 'x', 'o', 'o', 'o'],
@@ -211,7 +211,7 @@ describe "#Grid.find_fours" do
                 ['-', '-', '-', '-', 'o', 'x'],
                 ['-', '-', '-', '-', '-', 'o'],
                 ['-', '-', '-', '-', '-', '-']]
-    it "changes respective 'piece' labels in @posn to uppercase" do
+    it "changes respective 'piece' labels in position to uppercase" do
       grid.find_fours
       expect(grid.posn).to eql([['-', '-', '-', '-', 'x', 'o'],
                                 ['-', '-', 'X', 'o', 'x', 'o'], # Note uppercase 'X'
@@ -231,7 +231,7 @@ describe "#Grid.find_fours" do
                 ['-', '-', 'o', 'x', 'o', 'x'],
                 ['-', '-', 'o', 'o', 'x', 'x'],
                 ['-', '-', 'o', 'o', 'o', 'o']]
-    it "changes respective 'piece' labels in @posn to uppercase" do
+    it "changes respective 'piece' labels in position to uppercase" do
       grid.find_fours
       # example case where last 'piece' was added to column '7'
       # Note 10 * uppercase 'O'
