@@ -173,21 +173,20 @@ end
 describe "Game.rows" do
   context "when passed a grid position" do
     it "returns rows of position" do
-      game = Game.new
-      game.grid = object_double(
-        Grid.new, :posn => [['a6', 'a5', 'a4', 'a3', 'a2', 'a1'],
-                            ['b6', 'b5', 'b4', 'b3', 'b2', 'b1'],
-                            ['c6', 'c5', 'c4', 'c3', 'c2', 'c1'],
-                            ['d6', 'd5', 'd4', 'd3', 'd2', 'd1'],
-                            ['e6', 'e5', 'e4', 'e3', 'e2', 'e1'],
-                            ['f6', 'f5', 'f4', 'f3', 'f2', 'f1'],
-                            ['g6', 'g5', 'g4', 'g3', 'g2', 'g1']])
-      expect(game.rows).to eql([["a1", "b1", "c1", "d1", "e1", "f1", "g1"],
-                                ["a2", "b2", "c2", "d2", "e2", "f2", "g2"],
-                                ["a3", "b3", "c3", "d3", "e3", "f3", "g3"],
-                                ["a4", "b4", "c4", "d4", "e4", "f4", "g4"],
-                                ["a5", "b5", "c5", "d5", "e5", "f5", "g5"],
-                                ["a6", "b6", "c6", "d6", "e6", "f6", "g6"]])
+      grid = Grid.new
+      grid.posn =  [['a6', 'a5', 'a4', 'a3', 'a2', 'a1'],
+                    ['b6', 'b5', 'b4', 'b3', 'b2', 'b1'],
+                    ['c6', 'c5', 'c4', 'c3', 'c2', 'c1'],
+                    ['d6', 'd5', 'd4', 'd3', 'd2', 'd1'],
+                    ['e6', 'e5', 'e4', 'e3', 'e2', 'e1'],
+                    ['f6', 'f5', 'f4', 'f3', 'f2', 'f1'],
+                    ['g6', 'g5', 'g4', 'g3', 'g2', 'g1']]
+      expect(grid.rows()).to eql([["a1", "b1", "c1", "d1", "e1", "f1", "g1"],
+                                  ["a2", "b2", "c2", "d2", "e2", "f2", "g2"],
+                                  ["a3", "b3", "c3", "d3", "e3", "f3", "g3"],
+                                  ["a4", "b4", "c4", "d4", "e4", "f4", "g4"],
+                                  ["a5", "b5", "c5", "d5", "e5", "f5", "g5"],
+                                  ["a6", "b6", "c6", "d6", "e6", "f6", "g6"]])
     end
   end
 end
