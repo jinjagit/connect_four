@@ -13,7 +13,7 @@ In the example below, in the first round, a human player has chosen to 'drop' a 
 
 ![round_1.png](img/round_1.png)
 
-After each round (human move + computer move) the grid is redrawn and another human input requested. This continues until a player wins by creating a line (horizontal, vertical, or diagonal) of 4 of the player's pieces, as in the example below, (Note the uppercase highlighting of the winning line-of-four):
+After each round (human move + computer move) the grid is redrawn and another human input requested. This continues until a player wins by creating a line (horizontal, vertical, or diagonal) of 4 of the player's own pieces, as in the example below, (Note the uppercase highlighting of the winning line-of-four):
 
 ![win_1.png](img/win_1.png)
 
@@ -35,7 +35,7 @@ The app uses only 2 classes: Grid, and Game (which creates one instance of Grid)
 
 Initializes an empty grid position, <code>\@posn</code> == an array of 7 arrays of 6 '-' characters'.
 
-Contains methods for printing <code>\@posn</code> to the terminal, for referring to each horizontal, vertical and diagonal 'line' of \@posn, and using the former to check for winning positions.
+Contains methods for printing <code>\@posn</code> to the terminal, for referring to each horizontal, vertical and diagonal 'line' of <code>\@posn</code>, and using the former to check for winning positions.
 
 <code>Grid.find_fours</code> passes (sets of references to) every column, row, and diagonal (of length 4 or more) to <code>find_four</code> (note the singular);
 
@@ -45,9 +45,7 @@ Contains methods for printing <code>\@posn</code> to the terminal, for referring
 
 Initializes <code>\@grid</code> = a new instance of Grid
 
-Prints an empty grid (which involves calling <code>\@grid.print_posn</code>) at application start, and prompts user for input (a choice of grid column; an integer between 1 and 7, inclusively).
-
-<code>Game.play</code> calls play_round repetitively, until either a win is detected or the game is drawn. It then calls print_result, which prints the appropriate result (including calling <code>\@grid.print_posn</code> again to get a new version of the position with the winning line(s) highlighted by uppercase characters, in the case of a win).
+<code>Game.play</code> Prints an empty grid (which involves calling <code>\@grid.print_posn</code>) and prompts user for input (a choice of grid column; an integer between 1 and 7, inclusively). It then calls <code>play_round</code> repetitively, until either a win is detected or the game is drawn. It then calls print_result, which prints the appropriate result (including calling <code>\@grid.print_posn</code> again to get a new version of the position with the winning line(s) highlighted by uppercase characters, in the case of a win).
 
 <code>Game.play_round</code> uses <code>\@grid.find_fours</code> to check for a win after every player 'move'. If none is found it then calls <code>create_computer_move</code>, and if the computer move also does not produce a winning position, it calls <code>print_round</code>, which prints the position resulting from the round and prompts the user for the next move.
 
