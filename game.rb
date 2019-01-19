@@ -105,7 +105,21 @@ class Grid
     end
   end
 
-  # returns lists of indices of @posn elements on diagonals of length >= 4
+  # creates lists of indices of @posn elements in rows of grid
+  # (each sub-array of arrays == one such row)
+  def rows
+    rows = []
+    6.times do |i|
+      row = []
+      7.times do |j|
+        row << [j, 5 - i]
+      end
+      rows << row
+    end
+    rows
+  end
+
+  # creates lists of indices of @posn elements on grid diagonals of length >= 4
   # (each sub-array of arrays == one such diagonal)
   def diagonals
     diagonals = []
@@ -125,19 +139,65 @@ class Grid
       start_row += 1 if start_row < 5
     end
     reverse_diagonals = []
-    diagonals.each do |diag|
+    diagonals.each do |diagonal|
       reverse_diagonal = []
-      diag.each {|e| reverse_diagonal << [6 - e[0], e[1]]}
+      diagonal.each {|e| reverse_diagonal << [6 - e[0], e[1]]}
       reverse_diagonals << reverse_diagonal
     end
     return diagonals + reverse_diagonals
   end
+
+  def find_four(ary)
+    # ary == [[a, b], ..., [x, y]]
+    first = 0
+    last = 3
+    while last + 1 <= ary.length do
+      test = []
+      4.times do |i|
+        test << @posn[ary[first + i][0]][ary[first + i][1]]
+      end
+      if test.all? {|e| e.downcase == 'x'} || test.all? {|e| e.downcase == 'o'}
+        4.times do |i|
+          if test[0].downcase == 'x'
+            @posn[ary[first + i][0]][ary[first + i][1]]  = 'X'
+          else
+            @posn[ary[first + i][0]][ary[first + i][1]] = 'O'
+          end
+        end
+        #test[0] == 'x' ? @winner = 'cpu' : @winner = 'human'
+        break
+      end
+      first += 1
+      last += 1
+    end
+  end
 end
 
+
 if __FILE__ == $0
-  #grid = Grid.new
+  grid = Grid.new
   #grid.add_to_column(2)
-  #grid.print_posn
-  game = Game.new
-  game.play
+  grid.posn = [['-', '-', '-', '-', '-', 'x'],
+              ['-', '-', 'x', 'o', 'x', 'o'],
+              ['-', '-', 'o', 'x', 'o', 'x'],
+              ['-', '-', 'x', 'o', 'x', 'o'],
+              ['-', '-', '-', '-', 'o', 'x'],
+              ['-', '-', '-', '-', '-', 'o'],
+              ['-', '-', '-', '-', '-', '-']]
+  grid.print_posn
+  diags = grid.diagonals
+  diags.each {|e| grid.find_four(e)}
+  grid.print_posn
+  grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+              ['-', '-', 'x', 'o', 'o', 'o'],
+              ['-', '-', 'o', 'x', 'x', 'o'],
+              ['-', '-', 'x', 'o', 'x', 'o'],
+              ['-', '-', '-', '-', 'x', 'o'],
+              ['-', '-', '-', '-', 'x', 'x'],
+              ['-', '-', '-', '-', '-', '-']]
+  rows = grid.rows
+  rows.each {|e| grid.find_four(e)}
+  grid.print_posn
+  #game = Game.new
+  #game.play
 end
