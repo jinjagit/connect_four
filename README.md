@@ -51,7 +51,7 @@ Initializes <code>\@grid</code> = a new instance of Grid
 
 ## RSpec tests
 
-The image below shows the output of running <code>rspec</code> (which uses the tests in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
+Below is shown the output of running <code>rspec</code> (which uses the tests in [game_spec.rb](https://github.com/jinjagit/connect_four/blob/game-win/spec/game_spec.rb)):
 
 ![rspec.png](img/rspec.png)
 
