@@ -37,19 +37,19 @@ Initializes an empty grid position, <code>\@posn</code> == an array of 7 arrays 
 
 Contains methods for printing <code>\@posn</code> to the terminal, for referring to each horizontal, vertical and diagonal 'line' of \@posn, and using the former to check for winning positions.
 
-Grid.find_fours passes (sets of references to) every column, row, and diagonal (of length 4 or more) to find_four (note the singular);
+<code>Grid.find_fours</code> passes (sets of references to) every column, row, and diagonal (of length 4 or more) to <code>find_four</code> (note the singular);
 
-Grid.find_four: Looks for a winning 'line' (of 4 consecutive pieces belonging to the same player) in an array (of references to a column, row, or diagonal in \@posn). If such a winning line is found, the same definition also changes the character values of the referenced characters in \@posn to uppercase (to highlight the winning line), and \@line_of_four is set to a string value that discriminates the winning player.
+<code>Grid.find_four</code> Looks for a winning 'line' (of 4 consecutive pieces belonging to the same player) in an array (of references to a column, row, or diagonal in <code>\@posn</code>). If such a winning line is found, the same definition also changes the character values of the referenced characters in <code>\@posn</code> to uppercase (to highlight the winning line), and <code>\@line_of_four</code> is set to a string value that discriminates the winning player.
 
-#### Game:
+#### <code>Game:</code>
 
-Initializes \@grid == a new instance of Grid
+Initializes <code>\@grid</code> = a new instance of Grid
 
-Prints an empty grid (which involves calling \@grid.print_posn) at application start, and prompts user for input (a choice of grid column; an integer between 1 and 7, inclusively).
+Prints an empty grid (which involves calling <code>\@grid.print_posn</code>) at application start, and prompts user for input (a choice of grid column; an integer between 1 and 7, inclusively).
 
-Game.play calls play_round repetitively, until either a win is detected or the game is drawn. It then calls print_result, which prints the appropriate result (including calling \@grid.print_posn again to get a new version of the position with the winning line(s) highlighted by uppercase characters, in the case of a win).
+<code>Game.play</code> calls play_round repetitively, until either a win is detected or the game is drawn. It then calls print_result, which prints the appropriate result (including calling <code>\@grid.print_posn</code> again to get a new version of the position with the winning line(s) highlighted by uppercase characters, in the case of a win).
 
-Game.play_round uses \@grid.find_fours to check for a win after every player 'move'. If none is found it then calls create_computer_move, and if the computer move also does not produce a winning position, it calls print_round, which prints the position resulting from the round and prompts the user for the next move.
+<code>Game.play_round</code> uses <code>\@grid.find_fours</code> to check for a win after every player 'move'. If none is found it then calls <code>create_computer_move</code>, and if the computer move also does not produce a winning position, it calls <code>print_round</code>, which prints the position resulting from the round and prompts the user for the next move.
 
 ## RSpec tests
 
@@ -59,14 +59,14 @@ The image below shows the output of running <code>rspec</code> (which uses the e
 
 ### Methods with no / insufficient tests:
 
-Game.play: includes a conditional loop, and I don't know how to write an RSpec test for this case (nor if I need to). No tests.
+<code>Game.play</code> includes a conditional loop, and I don't know how to write an RSpec test for this case (nor if I need to). No tests.
 
-Game.play_round: includes a call to a method that loops until valid user input is given. No tests. See next issue;
+<code>Game.play_round</code> includes a call to a method that loops until valid user input is given. No tests. See next issue;
 
-Game.until_move_input_valid: Only the trivial case where the first user input is valid is tested. This method contains a loop that calls a check on the user input and prompts for further user inputs if the last input was 'invalid'. I don't know how to mock a series of <code>input = gets.chomp</code> events, nor how to deal with conditional loops in RSpec.
+<code>Game.until_move_input_valid</code> Only the trivial case where the first user input is valid is tested. This method contains a loop that calls a check on the user input and prompts for further user inputs if the last input was 'invalid'. I don't know how to mock a series of <code>input = gets.chomp</code> events, nor how to deal with conditional loops in RSpec.
 
-Game.print_game_start: Since this uses Grid.print_posn in the middle of print statements, I cannot 'expect' a simple std.out multi-line string to be its resulting action (though in effect, it is only concerned with a print routine). Using a Grid double doesn't seem an option that will solve this issue.
+<code>Game.print_game_start</code> Since this uses <code>Grid.print_posn</code> in the middle of print statements, I cannot 'expect' a simple std.out multi-line string to be its resulting action (though in effect, it is only concerned with a print routine). Using a <code>Grid</code> double doesn't seem an option that will solve this issue.
 
-Game_print_round: Same issue as for Game.print_game_start, above.
+<code>Game_print_round</code> Same issue as for Game.print_game_start, above.
 
-Game.print_result: Same issue as for Game.print_game_start, above.
+<code>Game.print_result</code> Same issue as for Game.print_game_start, above.
