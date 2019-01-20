@@ -259,7 +259,7 @@ describe "#Game.move_input_error?" do
       expect(game.move_input_error?('8')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
-  context "when input over range" do
+  context "when input under range" do
     it "returns correct error" do
       game = Game.new
       expect(game.move_input_error?('0')).to eql('error! input must be integer (from 1, to 7)')
