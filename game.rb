@@ -29,7 +29,7 @@ class Game
      return input, computer_move
   end
 
-  def until_move_input_valid(input)
+  def until_move_input_valid(input) # Has only a test of valid input on 1st input
     until move_input_error?(input) == nil do
       puts move_input_error?(input)
       print "try again; choose column (1 - 7): "
