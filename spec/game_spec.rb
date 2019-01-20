@@ -43,7 +43,7 @@ end
 
 describe "#Grid.add_to_column" do
   context "when passed 'column' reference and string" do
-    it "adds string to lowest free space in position 'column'" do
+    it "adds string to 'lowest' free space in position 'column'" do
       grid = Grid.new
       grid.add_to_column(2, 'o')
       grid.add_to_column(2, 'x')
