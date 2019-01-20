@@ -42,8 +42,8 @@ describe "#Grid.print_posn" do
 end
 
 describe "#Grid.add_to_column" do
-  context "when passed valid 'column' reference and string" do
-    it "adds string to lowest free space in @posn 'column'" do
+  context "when passed 'column' reference and string" do
+    it "adds string to 'lowest' free space in position 'column'" do
       grid = Grid.new
       grid.add_to_column(2, 'o')
       grid.add_to_column(2, 'x')
@@ -59,41 +59,228 @@ describe "#Grid.add_to_column" do
   end
 end
 
-describe "#Game.check_human_move" do
+describe "#Grid.rows" do
+  context "when called" do
+    it "returns lists of indices of rows of position" do
+      grid = Grid.new
+      expect(grid.rows()).to eql([[[0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5]],
+                                  [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4]],
+                                  [[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3]],
+                                  [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2]],
+                                  [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1]],
+                                  [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0]]])
+    end
+  end
+end
+
+describe "#Grid.columns" do
+  context "when called" do
+    it "returns lists of indices of columns of position" do
+      grid = Grid.new
+      expect(grid.columns()).to eql([[[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5]],
+                                    [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
+                                    [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5]],
+                                    [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5]],
+                                    [[4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5]],
+                                    [[5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5]],
+                                    [[6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5]]])
+    end
+  end
+end
+
+describe "#Grid.diagonals" do
+  context "when called" do
+    it "returns lists of indices of diagonals (with length >= 4) of position" do
+      grid = Grid.new
+      expect(grid.diagonals()).to eql([[[0, 3], [1, 2], [2, 1], [3, 0]],
+                                      [[0, 4], [1, 3], [2, 2], [3, 1], [4, 0]],
+                                      [[0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]],
+                                      [[1, 5], [2, 4], [3, 3], [4, 2], [5, 1], [6, 0]],
+                                      [[2, 5], [3, 4], [4, 3], [5, 2], [6, 1]],
+                                      [[3, 5], [4, 4], [5, 3], [6, 2]],
+                                      [[6, 3], [5, 2], [4, 1], [3, 0]],
+                                      [[6, 4], [5, 3], [4, 2], [3, 1], [2, 0]],
+                                      [[6, 5], [5, 4], [4, 3], [3, 2], [2, 1], [1, 0]],
+                                      [[5, 5], [4, 4], [3, 3], [2, 2], [1, 1], [0, 0]],
+                                      [[4, 5], [3, 4], [2, 3], [1, 2], [0, 1]],
+                                      [[3, 5], [2, 4], [1, 3], [0, 2]]])
+    end
+  end
+end
+
+describe "#Grid.find_four" do
+  context "when passed list referring to grid line containing sequence of 4 identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', 'o', 'o', 'o', 'o', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', '-', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    ary = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], 1, 5]
+    it "sets instance variable to correct winner name" do
+      grid.find_four(ary)
+      expect(grid.line_of_four).to eql('human')
+    end
+    it "replaces winning line elements in position with uppercase characters" do
+      grid.find_four(ary)
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', 'O', 'O', 'O', 'O', 'x'], # Note 4 * uppercase 'O'
+                                ['-', '-', 'o', 'x', 'x', 'x'],
+                                ['-', '-', 'x', 'o', 'x', 'o'],
+                                ['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', '-', '-', '-', 'x'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when passed list referring to grid line NOT containing sequence of 4 identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', 'x', 'o', 'o', 'o', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', '-', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    ary = [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], 1, 5]
+    it "does NOT set instance variable to a winner name" do
+      grid.find_four(ary)
+      expect(grid.line_of_four).to eql('')
+    end
+    it "does NOT change position elements" do
+      grid.find_four(ary)
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', 'x', 'o', 'o', 'o', 'x'],
+                                ['-', '-', 'o', 'x', 'x', 'x'],
+                                ['-', '-', 'x', 'o', 'x', 'o'],
+                                ['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', '-', '-', '-', 'x'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+end
+
+describe "#Grid.find_fours" do
+  context "when grid COLUMN contains sequence of four identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', 'o', 'o', 'o', 'o', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', '-', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    it "changes respective 'piece' labels in position to uppercase" do
+      grid.find_fours
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', 'O', 'O', 'O', 'O', 'x'], # Note 4 * uppercase 'O'
+                                ['-', '-', 'o', 'x', 'x', 'x'],
+                                ['-', '-', 'x', 'o', 'x', 'o'],
+                                ['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', '-', '-', '-', 'x'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when grid ROW contains sequence of four identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'o', 'x'],
+                ['-', '-', 'x', 'o', 'o', 'o'],
+                ['-', '-', 'o', 'x', 'x', 'o'],
+                ['-', '-', 'x', 'o', 'x', 'x'],
+                ['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', '-', '-', 'x', 'x'],
+                ['-', '-', '-', '-', '-', '-']]
+    it "changes respective 'piece' labels in position to uppercase" do
+      grid.find_fours
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'o', 'x'],
+                                ['-', '-', 'x', 'o', 'o', 'o'],
+                                ['-', '-', 'o', 'x', 'X', 'o'], # Note uppercase 'X'
+                                ['-', '-', 'x', 'o', 'X', 'x'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', 'X', 'o'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', 'X', 'x'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when grid DIAGONAL contains sequence of four identical 'pieces'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', 'x', 'o'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', 'x', 'o', 'x'],
+                ['-', '-', 'x', 'o', 'x', 'o'],
+                ['-', '-', '-', '-', 'o', 'x'],
+                ['-', '-', '-', '-', '-', 'o'],
+                ['-', '-', '-', '-', '-', '-']]
+    it "changes respective 'piece' labels in position to uppercase" do
+      grid.find_fours
+      expect(grid.posn).to eql([['-', '-', '-', '-', 'x', 'o'],
+                                ['-', '-', 'X', 'o', 'x', 'o'], # Note uppercase 'X'
+                                ['-', '-', '-', 'X', 'o', 'x'], # Note uppercase 'X'
+                                ['-', '-', 'x', 'o', 'X', 'o'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', 'o', 'X'], # Note uppercase 'X'
+                                ['-', '-', '-', '-', '-', 'o'],
+                                ['-', '-', '-', '-', '-', '-']])
+    end
+  end
+  context "when grid contains more than one 'winning line'" do
+    grid = Grid.new
+    grid.posn = [['-', '-', '-', '-', '-', '-'],
+                ['-', '-', '-', '-', 'x', 'x'],
+                ['-', '-', '-', '-', 'x', 'x'],
+                ['-', '-', 'o', 'x', 'x', 'o'],
+                ['-', '-', 'o', 'x', 'o', 'x'],
+                ['-', '-', 'o', 'o', 'x', 'x'],
+                ['-', '-', 'o', 'o', 'o', 'o']]
+    it "changes respective 'piece' labels in position to uppercase" do
+      grid.find_fours
+      # example case where last 'piece' was added to column '7'
+      # Note 10 * uppercase 'O'
+      expect(grid.posn).to eql([['-', '-', '-', '-', '-', '-'],
+                                ['-', '-', '-', '-', 'x', 'x'],
+                                ['-', '-', '-', '-', 'x', 'x'],
+                                ['-', '-', 'O', 'x', 'x', 'O'],
+                                ['-', '-', 'O', 'x', 'O', 'x'],
+                                ['-', '-', 'O', 'O', 'x', 'x'],
+                                ['-', '-', 'O', 'O', 'O', 'O']]) # column 7
+    end
+  end
+end
+
+describe "#Game.move_input_error?" do
   context "when input in correct range" do
-    it "returns input" do
+    it "returns nil" do
       game = Game.new
-      expect(game.check_human_move('4')).to eql('4')
+      expect(game.move_input_error?('4')).to eql(nil)
     end
   end
   context "when input over range" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('8')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('8')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
-  context "when input over range" do
+  context "when input under range" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('0')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('0')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when input not integer" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('z')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('z')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when no character input" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when more than 1 character input" do
     it "returns correct error" do
       game = Game.new
-      expect(game.check_human_move('11')).to eql('error! input must be integer (from 1, to 7)')
+      expect(game.move_input_error?('11')).to eql('error! input must be integer (from 1, to 7)')
     end
   end
   context "when input refers to a full grid column" do
@@ -107,11 +294,11 @@ describe "#Game.check_human_move" do
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"]])
-      expect(game.check_human_move('1')).to eql('error! that column is already full')
+      expect(game.move_input_error?('1')).to eql('error! that column is already full')
     end
   end
   context "when input refers to an almost full grid column" do
-    it "returns input" do
+    it "returns nil" do
       game = Game.new
       game.grid = object_double(
         Grid.new, :posn => [["x", "o", "x", "o", "x", "o"],
@@ -121,7 +308,18 @@ describe "#Game.check_human_move" do
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"],
                             ["-", "-", "-", "-", "-", "-"]])
-      expect(game.check_human_move('2')).to eql('2')
+      expect(game.move_input_error?('2')).to eql(nil)
+    end
+  end
+end
+
+# case where input IS valid is trivial, BUT how to test case(s) where human
+# input(s) are invalid (resulting in error messages and further input loops) ?
+describe "#Game.until_move_input_valid" do
+  context "when input is valid" do
+    it "returns input" do
+      game = Game.new
+      expect(game.until_move_input_valid('1')).to eql('1')
     end
   end
 end
@@ -155,17 +353,6 @@ describe "#Game.create_computer_move" do
       # free cell(s) is found and returned.
       srand(48893)
       expect(game.create_computer_move).not_to eql(1)
-    end
-  end
-end
-
-# case where input IS valid is trivial, BUT how to test case(s) where human
-# input(s) are invalid (resulting in error messages and further input loops) ?
-describe "#Game.until_human_move_valid" do
-  context "when input is valid" do
-    it "returns input" do
-      game = Game.new
-      expect(game.until_human_move_valid('1')).to eql('1')
     end
   end
 end
