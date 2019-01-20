@@ -3,6 +3,8 @@
 
 Simon Tharby's solution to [Testing Your Ruby Code](https://www.theodinproject.com/courses/ruby-programming/lessons/testing-your-ruby-code?ref=lnav) (2nd exercise), Odin Project:
 
+#### exercise instructions: "Build Connect Four! Just be sure to keep it TDD."
+
 ## game-play:
 
 The game starts with an empty 'grid' and an invitation to the player to choose which grid column to 'drop' a 'piece' into:
